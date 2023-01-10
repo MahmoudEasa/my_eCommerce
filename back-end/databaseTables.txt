@@ -1,19 +1,309 @@
                                             myECommerce
-
                                         ar and en Languages
 
-1- Users Table => Done
-2- Admins Table =>
-3- Vendors Table =>
-4- MainCategories Table =>
-5-    ParentCategories Table =>
-6-       Categories Table =>
-7- Carts Table =>
-8- Payments Table =>
-9- VendorReviews Table =>
-10- CategoryReviews Table =>
-11- Coupons Table =>
-12- Orders Table =>
-13- Contacts or [Feedbacks] Table =>
-14- Helps Table =>
-15- FAQ Table [Frequently Asked Questions] =>
+1- SiteUser Table => Done
+    [
+        id
+        name
+        email
+        password
+        mobile
+        active
+        photo
+        remember_token
+        created_at
+        updated_at
+    ]
+
+2- UserAddress Table => Done
+    [
+        id
+        user_id[SiteUser.id]
+        address_id[address.id]
+        is_default
+        created_at
+        updated_at
+    ]
+
+3- Address Table => Done
+    [
+        id
+        unit_number[رقم الوحدة]
+        street_number
+        address_line1
+        address_line2
+        city
+        region[منطقة]
+        postal_code
+        country
+        created_at
+        updated_at
+    ]
+
+4- Admin Table =>
+    [
+        id
+        name
+        email
+        password
+        remember_token
+        created_at
+        updated_at
+    ]
+
+5- Vendor Table =>
+    [
+        id
+        name
+        email
+        password
+        mobile
+        address
+        city
+        country
+        active
+        photo
+        remember_token
+        created_at
+        updated_at
+    ]
+
+6- VendorCategory Table =>
+    [
+        id
+        category_id[ProductCategory.id]
+        vendor_id[vendor.id]
+        created_at
+        updated_at
+    ]
+
+7- UserPaymentMethod Table =>
+    [
+        id
+        user_id[SiteUser.id]
+        payment_type_id[PaymentType.id][???]
+        provider[???]
+        account_number[رقم الحساب]
+        expire_date[تاريخ الإنتهاء]
+        is_default
+        created_at
+        updated_at
+    ]
+
+8- PaymentType Table =>
+    [
+        id
+        value
+        created_at
+        updated_at
+    ]
+
+9- ProductCategory Table =>
+    [
+        id
+        parent_category_id[self.id][default 0]
+        name_ar
+        name_en
+        created_at
+        updated_at
+    ]
+
+10- Product Table =>
+    [
+        id
+        category_id[productCategory.id]
+        name_ar
+        name_en
+        description_ar
+        description_en
+        product_image
+        created_at
+        updated_at
+    ]
+
+11- Variation Table => [تغيير مثلا الحجم واللون]
+    [
+        id
+        name_ar
+        name_en
+        category_id[productCategory.id]
+        created_at
+        updated_at
+    ]
+
+12-  VariationOption Table => [تغيير مثلا الحجم واللون]
+     [
+        id
+        variation_id[variation.id]
+        value_ar
+        value_en
+        created_at
+        updated_at
+    ]
+
+13-  ProductConfiguration Table =>
+     [
+        id
+        product_item_id[productItem.id]
+        variation_option_id[VariationOption.id]
+        created_at
+        updated_at
+    ]
+
+14-  ProductItem Table =>
+     [
+        id
+        product_id[product.id]
+        SKU[???]
+        qty_in_stock
+        product_image1
+        product_image2
+        product_image3
+        price
+        created_at
+        updated_at
+    ]
+
+15-  Promotion Table =>
+     [
+        id
+        name_ar
+        name_en
+        description_ar
+        description_en
+        discount_rate
+        start_date
+        end_date
+        created_at
+        updated_at
+    ]
+
+16-  PromotionCategory Table =>
+     [
+        id
+        category_id[productCategory.id]
+        promotion_id[Promotion.id]
+        created_at
+        updated_at
+    ]
+
+17-  ShoppingCart Table =>
+     [
+        id
+        user_id[SiteUser.id]
+        created_at
+        updated_at
+    ]
+
+18-  ShoppingCartItem Table =>
+     [
+        id
+        cart_id[ShoppingCart.id]
+        product_item_id[productItem.id]
+        created_at
+        updated_at
+    ]
+
+19-  ShopOrder Table =>
+     [
+        id
+        user_id[SiteUser.id]
+        order_no
+        order_date
+        payment_method_id[UserPaymentMethod.id]
+        shipping_address_id[address.id]
+        shipping_method_id[ShippingMethod.id]
+        order_total
+        order_status[OrderStatus.id]
+        created_at
+        updated_at
+    ]
+
+20-  OrderStatus Table =>
+     [
+        id
+        status
+        created_at
+        updated_at
+    ]
+
+21-  ShippingMethod Table =>
+     [
+        id
+        name
+        price
+        created_at
+        updated_at
+    ]
+
+22-  OrderLine Table =>
+     [
+        id
+        product_item_id[productItem.id]
+        order_id[ShopOrder.id]
+        qty
+        price
+        created_at
+        updated_at
+    ]
+
+23-  UserOrderReview Table =>
+     [
+        id
+        user_id[SiteUser.id]
+        ordered_product_id[OrderLine.id]
+        rating_value
+        comment
+        created_at
+        updated_at
+    ]
+
+24-  UserVendorReview Table =>
+     [
+        id
+        user_id[SiteUser.id]
+        vendor_id[vendor.id]
+        rating_value
+        comment
+        created_at
+        updated_at
+    ]
+
+25- Coupon Table =>
+    [
+        id
+        coupon_no
+        coupon_discount
+        start_date
+        end_date
+        created_at
+        updated_at
+    ]
+
+26- Contact Table =>
+    [
+        id
+        message
+        user_id[SiteUser.id]
+        created_at
+        updated_at
+    ]
+
+27- Help Table =>
+    [
+        id
+        question
+        answer
+        created_at
+        updated_at
+    ]
+
+28- FAQ Table [Frequently Asked Questions | أسئلة مكررة] =>
+    [
+        id
+        question
+        answer
+        created_at
+        updated_at
+    ]
+
