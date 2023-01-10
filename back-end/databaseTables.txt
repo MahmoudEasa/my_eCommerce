@@ -1,0 +1,19 @@
+                                            myECommerce
+
+                                        ar and en Languages
+
+1- Users Table => Done
+2- Admins Table =>
+3- Vendors Table =>
+4- MainCategories Table =>
+5-    ParentCategories Table =>
+6-       Categories Table =>
+7- Carts Table =>
+8- Payments Table =>
+9- VendorReviews Table =>
+10- CategoryReviews Table =>
+11- Coupons Table =>
+12- Orders Table =>
+13- Contacts or [Feedbacks] Table =>
+14- Helps Table =>
+15- FAQ Table [Frequently Asked Questions] =>
