@@ -1,46 +1,50 @@
                                             myECommerce
                                         ar and en Languages
 
-1- SiteUser Table => Done
+1- SiteUser Table [User] => [Model Controller Route Middleware migrate]
+    php artisan make:model SiteUser --migration --controller --resource
     [
         id
         name
         email
         password
         mobile
-        active
-        photo
-        remember_token
+        active [1]
+        photo [Null]
+        remember_token [Null]
         created_at
         updated_at
     ]
 
-2- UserAddress Table => Done
+2- UserAddress Table [User] => [Model migrate]
+    php artisan make:model UserAddress --migration
     [
         id
         user_id[SiteUser.id]
         address_id[address.id]
-        is_default
+        is_default [0]
         created_at
         updated_at
     ]
 
-3- Address Table => Done
+3- Address Table [User] => [Model Controller Route migrate]
+    php artisan make:model Address --migration --controller --resource
     [
         id
-        unit_number[رقم الوحدة]
-        street_number
+        unit_number[رقم الوحدة] [Null]
+        street_number [Null]
         address_line1
-        address_line2
+        address_line2 [Null]
         city
-        region[منطقة]
-        postal_code
+        region[منطقة][Null]
+        postal_code[Null]
         country
         created_at
         updated_at
     ]
 
-4- Admin Table =>
+4- Admin Table => [Model Controller Route Middleware migrate]
+    php artisan make:model Admin --migration --controller --resource
     [
         id
         name
@@ -51,7 +55,8 @@
         updated_at
     ]
 
-5- Vendor Table =>
+5- Vendor Table [Admin] => [Model Controller Route Middleware migrate]
+    php artisan make:model Vendor --migration --controller --resource
     [
         id
         name
@@ -61,14 +66,15 @@
         address
         city
         country
-        active
-        photo
+        active [1]
+        photo [Null]
         remember_token
         created_at
         updated_at
     ]
 
-6- VendorCategory Table =>
+6- VendorCategory Table [Admin] => [Model migrate]
+    php artisan make:model VendorCategory --migration
     [
         id
         category_id[ProductCategory.id]
@@ -77,20 +83,22 @@
         updated_at
     ]
 
-7- UserPaymentMethod Table =>
+7- UserPaymentMethod Table [User] => [Model Controller Route migrate]
+    php artisan make:model UserPaymentMethod --migration --controller --resource
     [
         id
         user_id[SiteUser.id]
-        payment_type_id[PaymentType.id][???]
-        provider[???]
+        payment_type_id[PaymentType.id][PayPal Or Others]
+        provider[VISA, Mastercard]
         account_number[رقم الحساب]
         expire_date[تاريخ الإنتهاء]
-        is_default
+        is_default [0]
         created_at
         updated_at
     ]
 
-8- PaymentType Table =>
+8- PaymentType Table [Admin] => [Model Controller Route migrate]
+    php artisan make:model PaymentType --migration --controller --resource
     [
         id
         value
@@ -98,8 +106,9 @@
         updated_at
     ]
 
-9- ProductCategory Table =>
-    [
+9- ProductCategory Table [Admin] => [Model Controller Route migrate]
+    php artisan make:model ProductCategory --migration --controller --resource
+    [ [الملابس أو الأحذية]
         id
         parent_category_id[self.id][default 0]
         name_ar
@@ -108,8 +117,9 @@
         updated_at
     ]
 
-10- Product Table =>
-    [
+10- Product Table [Admin] => [Model Controller Route migrate]
+    php artisan make:model Product --migration --controller --resource
+    [ [Slim t-shirt]
         id
         category_id[productCategory.id]
         name_ar
@@ -121,7 +131,25 @@
         updated_at
     ]
 
-11- Variation Table => [تغيير مثلا الحجم واللون]
+11-  ProductItem Table [Vendor, Admin] => [Model Controller Route migrate]
+    php artisan make:model ProductItem --migration --controller --resource
+     [ [Slim t-shirt color:black size:M]
+        id
+        product_id[product.id]
+        qty_in_stock
+        product_image1 [Null]
+        product_image2 [Null]
+        product_image3 [Null]
+        price
+        created_at
+        updated_at
+
+        // SKU[وحدة حفظ المخزون تعد معرفاً قياسياً في عالم التجارةالإلكترونية]
+    ]
+
+12- Variation Table [Vendor, Admin] => [Model Controller Route migrate]
+                                        [تغيير مثلا الحجم واللون]
+    php artisan make:model Variation --migration --controller --resource
     [
         id
         name_ar
@@ -131,7 +159,9 @@
         updated_at
     ]
 
-12-  VariationOption Table => [تغيير مثلا الحجم واللون]
+13-  VariationOption Table [Vendor, Admin] => [Model Controller Route migrate]
+                                                [تغيير مثلا الحجم واللون]
+    php artisan make:model VariationOption --migration --controller --resource
      [
         id
         variation_id[variation.id]
@@ -141,7 +171,8 @@
         updated_at
     ]
 
-13-  ProductConfiguration Table =>
+14-  ProductConfiguration Table [Vendor, Admin] => [Model migrate]
+    php artisan make:model ProductConfiguration --migration
      [
         id
         product_item_id[productItem.id]
@@ -150,21 +181,8 @@
         updated_at
     ]
 
-14-  ProductItem Table =>
-     [
-        id
-        product_id[product.id]
-        SKU[???]
-        qty_in_stock
-        product_image1
-        product_image2
-        product_image3
-        price
-        created_at
-        updated_at
-    ]
-
-15-  Promotion Table =>
+15-  Promotion Table [Vendor, Admin] => [Model Controller Route migrate]
+    php artisan make:model Promotion --migration --controller --resource
      [
         id
         name_ar
@@ -178,7 +196,8 @@
         updated_at
     ]
 
-16-  PromotionCategory Table =>
+16-  PromotionCategory Table [Vendor, Admin] => [Model migrate]
+    php artisan make:model PromotionCategory --migration
      [
         id
         category_id[productCategory.id]
@@ -187,7 +206,8 @@
         updated_at
     ]
 
-17-  ShoppingCart Table =>
+17-  ShoppingCart Table [User] => [Model Controller Route migrate]
+    php artisan make:model ShoppingCart --migration --controller --resource
      [
         id
         user_id[SiteUser.id]
@@ -195,7 +215,8 @@
         updated_at
     ]
 
-18-  ShoppingCartItem Table =>
+18-  ShoppingCartItem Table [User] => [Model migrate]
+    php artisan make:model ShoppingCartItem --migration
      [
         id
         cart_id[ShoppingCart.id]
@@ -204,7 +225,8 @@
         updated_at
     ]
 
-19-  ShopOrder Table =>
+19-  ShopOrder Table [User] => [Model Controller Route migrate]
+    php artisan make:model ShopOrder --migration --controller --resource
      [
         id
         user_id[SiteUser.id]
@@ -219,24 +241,27 @@
         updated_at
     ]
 
-20-  OrderStatus Table =>
+20-  OrderStatus Table [User] => [Model Controller Route migrate]
+    php artisan make:model OrderStatus --migration --controller --resource
      [
         id
-        status
+        status [Pending]
         created_at
         updated_at
     ]
 
-21-  ShippingMethod Table =>
-     [
+21-  ShippingMethod Table [Admin] => [Model Controller Route migrate]
+    php artisan make:model ShippingMethod --migration --controller --resource
+     [ [معيار الأولوية السريع أو أي خيارات ]
         id
-        name
+        name [default]
         price
         created_at
         updated_at
     ]
 
-22-  OrderLine Table =>
+22-  OrderLine Table [User] => [Model Controller Route migrate]
+    php artisan make:model OrderLine --migration --controller --resource
      [
         id
         product_item_id[productItem.id]
@@ -247,7 +272,8 @@
         updated_at
     ]
 
-23-  UserOrderReview Table =>
+23-  UserOrderReview Table [User] => [Model Controller Route migrate]
+    php artisan make:model UserOrderReview --migration --controller --resource
      [
         id
         user_id[SiteUser.id]
@@ -258,7 +284,8 @@
         updated_at
     ]
 
-24-  UserVendorReview Table =>
+24-  UserVendorReview Table [User] => [Model Controller Route migrate]
+    php artisan make:model UserVendorReview --migration --controller --resource
      [
         id
         user_id[SiteUser.id]
@@ -269,7 +296,8 @@
         updated_at
     ]
 
-25- Coupon Table =>
+25- Coupon Table [Admin] => [Model Controller Route migrate]
+    php artisan make:model Coupon --migration --controller --resource
     [
         id
         coupon_no
@@ -280,7 +308,8 @@
         updated_at
     ]
 
-26- Contact Table =>
+26- Contact Table [User] => [Model Controller Route migrate]
+    php artisan make:model Contact --migration --controller --resource
     [
         id
         message
@@ -289,7 +318,8 @@
         updated_at
     ]
 
-27- Help Table =>
+27- Help Table [Admin] => [Model Controller Route migrate]
+    php artisan make:model Help --migration --controller --resource
     [
         id
         question
@@ -298,7 +328,9 @@
         updated_at
     ]
 
-28- FAQ Table [Frequently Asked Questions | أسئلة مكررة] =>
+28- FAQ Table [Admin][Frequently Asked Questions | أسئلة مكررة] =>
+                 [Model Controller Route migrate]
+    php artisan make:model FAQ --migration --controller --resource
     [
         id
         question
