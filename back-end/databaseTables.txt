@@ -6,10 +6,10 @@
     [
         id
         name
-        email
+        email [unique]
         password
         mobile
-        active [1]
+        status enum('status', ['Active', 'Deactivated', 'Suspended'])
         photo [Null]
         remember_token [Null]
         created_at
@@ -48,7 +48,7 @@
     [
         id
         name
-        email
+        email [unique]
         password
         remember_token
         created_at
@@ -60,13 +60,13 @@
     [
         id
         name
-        email
+        email [unique]
         password
         mobile
         address
         city
         country
-        active [1]
+        status enum('status', ['Active', 'Deactivated', 'Suspended'])
         photo [Null]
         remember_token
         created_at
@@ -83,47 +83,24 @@
         updated_at
     ]
 
-7- UserPaymentMethod Table [User] => [Model Controller Route migrate]
-    php artisan make:model UserPaymentMethod --migration --controller --resource
-    [
-        id
-        user_id[SiteUser.id]
-        payment_type_id[PaymentType.id][PayPal Or Others]
-        provider[VISA, Mastercard]
-        account_number[رقم الحساب]
-        expire_date[تاريخ الإنتهاء]
-        is_default [0]
-        created_at
-        updated_at
-    ]
-
-8- PaymentType Table [Admin] => [Model Controller Route migrate]
-    php artisan make:model PaymentType --migration --controller --resource
-    [
-        id
-        value
-        created_at
-        updated_at
-    ]
-
-9- ProductCategory Table [Admin] => [Model Controller Route migrate]
+7- ProductCategory Table [Admin] => [Model Controller Route migrate]
     php artisan make:model ProductCategory --migration --controller --resource
     [ [الملابس أو الأحذية]
         id
         parent_category_id[self.id][default 0]
-        name_ar
-        name_en
+        name_ar [unique]
+        name_en [unique]
         created_at
         updated_at
     ]
 
-10- Product Table [Admin] => [Model Controller Route migrate]
+8- Product Table [Admin] => [Model Controller Route migrate]
     php artisan make:model Product --migration --controller --resource
     [ [Slim t-shirt]
         id
         category_id[productCategory.id]
-        name_ar
-        name_en
+        name_ar [unique]
+        name_en [unique]
         description_ar
         description_en
         product_image
@@ -131,7 +108,7 @@
         updated_at
     ]
 
-11-  ProductItem Table [Vendor, Admin] => [Model Controller Route migrate]
+9-  ProductItem Table [Vendor] => [Model Controller Route migrate]
     php artisan make:model ProductItem --migration --controller --resource
      [ [Slim t-shirt color:black size:M]
         id
@@ -147,7 +124,7 @@
         // SKU[وحدة حفظ المخزون تعد معرفاً قياسياً في عالم التجارةالإلكترونية]
     ]
 
-12- Variation Table [Vendor, Admin] => [Model Controller Route migrate]
+10- Variation Table [Vendor] => [Model Controller Route migrate]
                                         [تغيير مثلا الحجم واللون]
     php artisan make:model Variation --migration --controller --resource
     [
@@ -159,7 +136,7 @@
         updated_at
     ]
 
-13-  VariationOption Table [Vendor, Admin] => [Model Controller Route migrate]
+11-  VariationOption Table [Vendor] => [Model Controller Route migrate]
                                                 [تغيير مثلا الحجم واللون]
     php artisan make:model VariationOption --migration --controller --resource
      [
@@ -171,7 +148,7 @@
         updated_at
     ]
 
-14-  ProductConfiguration Table [Vendor, Admin] => [Model migrate]
+12-  ProductConfiguration Table [Vendor] => [Model migrate]
     php artisan make:model ProductConfiguration --migration
      [
         id
@@ -181,12 +158,12 @@
         updated_at
     ]
 
-15-  Promotion Table [Vendor, Admin] => [Model Controller Route migrate]
+13-  Promotion Table [Vendor] => [Model Controller Route migrate]
     php artisan make:model Promotion --migration --controller --resource
      [
         id
-        name_ar
-        name_en
+        name_ar [unique]
+        name_en [unique]
         description_ar
         description_en
         discount_rate
@@ -196,12 +173,35 @@
         updated_at
     ]
 
-16-  PromotionCategory Table [Vendor, Admin] => [Model migrate]
+14-  PromotionCategory Table [Vendor] => [Model migrate]
     php artisan make:model PromotionCategory --migration
      [
         id
         category_id[productCategory.id]
         promotion_id[Promotion.id]
+        created_at
+        updated_at
+    ]
+
+15- UserPaymentMethod Table [User] => [Model Controller Route migrate]
+    php artisan make:model UserPaymentMethod --migration --controller --resource
+    [
+        id
+        user_id[SiteUser.id]
+        payment_type_id[PaymentType.id][PayPal Or Others]
+        provider[VISA, Mastercard]
+        account_number[رقم الحساب] [unique]
+        expire_date[تاريخ الإنتهاء]
+        is_default [0]
+        created_at
+        updated_at
+    ]
+
+16- PaymentType Table [Admin] => [Model Controller Route migrate]
+    php artisan make:model PaymentType --migration --controller --resource
+    [
+        id
+        value [unique]
         created_at
         updated_at
     ]
@@ -229,13 +229,13 @@
     php artisan make:model ShopOrder --migration --controller --resource
      [
         id
-        user_id[SiteUser.id]
         order_no
         order_date
-        payment_method_id[UserPaymentMethod.id]
-        shipping_address_id[address.id]
-        shipping_method_id[ShippingMethod.id]
         order_total
+        user_id[SiteUser.id]
+        payment_method_id[UserPaymentMethod.id]
+        shipping_address[address.id]
+        shipping_method[ShippingMethod.id]
         order_status[OrderStatus.id]
         created_at
         updated_at
@@ -245,7 +245,16 @@
     php artisan make:model OrderStatus --migration --controller --resource
      [
         id
-        status [Pending]
+        status enum('status',
+                [
+                    'Pending',
+                    'In Review',
+                    'In Progress',
+                    'Canceled',
+                    'On The Way',
+                    'Delivered'
+                ]
+            )
         created_at
         updated_at
     ]
@@ -254,7 +263,7 @@
     php artisan make:model ShippingMethod --migration --controller --resource
      [ [معيار الأولوية السريع أو أي خيارات ]
         id
-        name [default]
+        name [default = "default"] [unique]
         price
         created_at
         updated_at
@@ -300,7 +309,7 @@
     php artisan make:model Coupon --migration --controller --resource
     [
         id
-        coupon_no
+        coupon_no [unique]
         coupon_discount
         start_date
         end_date
@@ -322,7 +331,7 @@
     php artisan make:model Help --migration --controller --resource
     [
         id
-        question
+        question [unique]
         answer
         created_at
         updated_at
@@ -333,7 +342,7 @@
     php artisan make:model FAQ --migration --controller --resource
     [
         id
-        question
+        question [unique]
         answer
         created_at
         updated_at

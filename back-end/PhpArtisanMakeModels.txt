@@ -1,0 +1,28 @@
+php artisan make:model SiteUser --migration --controller --resource
+php artisan make:model UserAddress --migration
+php artisan make:model Address --migration --controller --resource
+php artisan make:model Admin --migration --controller --resource
+php artisan make:model Vendor --migration --controller --resource
+php artisan make:model VendorCategory --migration
+php artisan make:model ProductCategory --migration --controller --resource
+php artisan make:model Product --migration --controller --resource
+php artisan make:model ProductItem --migration --controller --resource
+php artisan make:model Variation --migration --controller --resource
+php artisan make:model VariationOption --migration --controller --resource
+php artisan make:model ProductConfiguration --migration
+php artisan make:model Promotion --migration --controller --resource
+php artisan make:model PromotionCategory --migration
+php artisan make:model UserPaymentMethod --migration --controller --resource
+php artisan make:model PaymentType --migration --controller --resource
+php artisan make:model ShoppingCart --migration --controller --resource
+php artisan make:model ShoppingCartItem --migration
+php artisan make:model ShopOrder --migration --controller --resource
+php artisan make:model OrderStatus --migration --controller --resource
+php artisan make:model ShippingMethod --migration --controller --resource
+php artisan make:model OrderLine --migration --controller --resource
+php artisan make:model UserOrderReview --migration --controller --resource
+php artisan make:model UserVendorReview --migration --controller --resource
+php artisan make:model Coupon --migration --controller --resource
+php artisan make:model Contact --migration --controller --resource
+php artisan make:model Help --migration --controller --resource
+php artisan make:model FAQ --migration --controller --resource

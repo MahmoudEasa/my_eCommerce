@@ -1,0 +1,61 @@
+$table->foreignId('address_id')
+    ->constrained('addresses')
+    ->cascadeOnDelete()
+    ->cascadeOnUpdate()
+;
+
+$table->unsignedBigInteger('user_id');
+$table->foreign('user_id')
+    ->references('id')
+    ->on('site_users')
+    ->onDelete('cascade')
+    ->onUpdate('cascade');
+
+$table->foreignId('user_id')
+      ->constrained('site_users')
+      ->onUpdate('cascade')
+      ->onDelete('cascade');
+
+$table->enum('difficulty', ['easy', 'hard']);
+$table->ipAddress('visitor');
+$table->lineString('positions');
+$table->longText('description');
+$table->mediumText('description');
+$table->rememberToken();
+
+
+            $table->foreignId('category_id')
+                ->constrained('product_categories')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate()
+            ;
+            $table->string('name_ar')->unique();
+            $table->string('name_en')->unique();
+
+site_users
+addresses
+user_addresses
+vendors
+vendor_categories
+product_categories
+products
+product_items
+variations
+variation_options
+product_configurations
+promotions
+promotion_categories
+user_payment_methods
+payment_types
+shopping_carts
+shopping_cart_items
+shop_orders
+order_statuses
+shipping_methods
+order_lines
+user_order_reviews
+user_vendor_reviews
+coupons
+contacts
+helps
+f_a_q_s
