@@ -8,4 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class FAQ extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'question',
+        'answer',
+        'created_at',
+        'updated_at',
+    ];
+
+    public function scopeSelection($query) {
+        return $query->select(
+            'id',
+            'question',
+            'answer',
+            'created_at',
+            'updated_at',
+        );
+    }
 }

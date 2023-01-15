@@ -59,3 +59,29 @@ coupons
 contacts
 helps
 f_a_q_s
+
+
+    public function addresses()
+    {
+        return $this->belongsToMany(Address::class, 'user_addresses', 'user_id', 'address_id');
+    }
+
+    public function options()
+    {
+        return $this->belongsToMany(VariationOption::class, 'product_configurations', 'product_item_id', 'variation_option_id');
+    }
+
+    protected $fillable = [
+        '',
+        'created_at',
+        'updated_at',
+    ];
+
+    public function scopeSelection($query) {
+        return $query->select(
+            'id',
+            '',
+            'created_at',
+            'updated_at',
+        );
+    }

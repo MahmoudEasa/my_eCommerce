@@ -8,4 +8,26 @@ use Illuminate\Database\Eloquent\Model;
 class Contact extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'message',
+        'user_id',
+        'created_at',
+        'updated_at',
+    ];
+
+    public function scopeSelection($query) {
+        return $query->select(
+            'id',
+            'message',
+            'user_id',
+            'created_at',
+            'updated_at',
+        );
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(SiteUser::class, 'user_id');
+    }
 }

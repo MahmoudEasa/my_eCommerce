@@ -50,6 +50,7 @@
         name
         email [unique]
         password
+        photo
         remember_token
         created_at
         updated_at
@@ -263,7 +264,7 @@
     php artisan make:model ShippingMethod --migration --controller --resource
      [ [معيار الأولوية السريع أو أي خيارات ]
         id
-        name [default = "default"] [unique]
+        name [unique]
         price
         created_at
         updated_at

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('shipping_methods', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->default('Default')->unique();
+            $table->string('name')->unique();
             $table->integer('price');
             $table->timestamps();
         });
