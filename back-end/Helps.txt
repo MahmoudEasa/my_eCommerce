@@ -85,3 +85,13 @@ f_a_q_s
             'updated_at',
         );
     }
+
+
+    Translations
+    [
+        Something went wrong
+        Unauthorized
+        Successfully logged in
+        Successfully logged out
+
+    ]

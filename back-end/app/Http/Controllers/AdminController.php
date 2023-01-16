@@ -69,7 +69,8 @@ class AdminController extends Controller
      */
     public function update(Request $request, Admin $admin)
     {
-        //
+        // Validation
+        // Save
     }
 
     /**
